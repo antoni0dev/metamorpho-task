@@ -1,50 +1,90 @@
-# React + TypeScript + Vite
+# MetaMorpho Vault Interface - Case Study
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This project is a case study involving the integration and interaction with MetaMorpho vaults using Ethereum smart contracts. The goal is to create a simple web interface that allows users to connect their wallet, validate MetaMorpho vault addresses, fetch relevant vault data, and withdraw their assets.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
 
-## Expanding the ESLint configuration
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Features](#features)
+4. [Development Environment Setup](#development-environment-setup)
+5. [Technical Details](#technical-details)
+6. [Dependencies](#dependencies)
+7. [License](#license)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Installation
 
-- Configure the top-level `parserOptions` property like this:
+To get started, clone this repository and install the dependencies:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+git clone git@github.com:antoni0dev/metamorpho-task.git
+cd metamorpho-task
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Usage
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+To run the application locally:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm run dev
 ```
+
+This will start the development server, and the application will be available at `http://localhost:5173`.
+
+## Features
+
+### 1. **User Wallet Connection**
+
+- **States Managed:** Loading, stale, and switch network.
+- **Wallet Integration:** Supports web3 wallet connection using `dynamic.xyz` and other Web3 libraries.
+
+### 2. **MetaMorpho Vault Address Input**
+
+- **Validation:** Debounced input that checks the validity of the vault address via the `isMetaMorpho` function from the MetaMorpho factory contract.
+- **Error Handling:**
+  - `invalidInput`: When the input is not a valid Ethereum address.
+  - `rpcError`: When the RPC call fails.
+  - `invalidMetaMorpho`: When the address is not recognized as a valid MetaMorpho vault.
+
+### 3. **Fetching Vault Data**
+
+- **Data Fetched:** Vault name, symbol, decimals, user shares, user assets, and the maximum amount that can be redeemed.
+- **Efficiency:** Uses `react-query` to handle data fetching, caching, and updating efficiently.
+
+### 4. **Withdraw Functionality**
+
+- **Button State:** Disabled when `userMaxRedeem == 0`.
+- **Transaction Handling:** Executes the redeem transaction and handles loading, success, and error states.
+- **Error Handling:** Displays appropriate messages for any issues encountered during the transaction.
+
+### 5. **Transaction Lifecycle Management**
+
+- **React Query Mutation:** The `useMutation` hook is used for handling the withdraw action, ensuring smooth UX with proper feedback mechanisms.
+
+## Technical Details
+
+- **React Query:** Used for efficient data fetching and management.
+- **Ethers.js:** Used for interacting with Ethereum smart contracts.
+- **Dynamic.xyz:** Manages wallet connections.
+- **Debounced Validation:** Ensures that the vault address input is validated efficiently.
+
+### Key Files:
+
+- **`MetaMorphoVaultDataDetails.tsx`**: Core component managing vault data display and withdrawal.
+- **`useFetchMetaMorphoData.ts`**: Custom hook for fetching vault data.
+- **`useWithdrawFromVault.ts`**: Custom hook managing the withdraw transaction.
+- **`getVaultDataService.ts`**: Service for fetching vault data from the smart contract.
+- **`withdrawFromVaultService.ts`**: Service handling the vault withdrawal transaction.
+
+## Dependencies
+
+- **Vite**
+- **React**
+- **React Query**
+- **Ethers.js**
+- **wagmi**
+- **Dynamic.xyz**
+- **Styled Components** (for UI styling)
