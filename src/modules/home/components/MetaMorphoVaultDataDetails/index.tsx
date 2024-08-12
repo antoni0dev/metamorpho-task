@@ -1,7 +1,7 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { useFetchMetaMorphoData } from '../../hooks/useFetchMetaMorphoData';
 import { extractError } from '@/common/utils/extract-error';
-import { Wrapper, ErrorText } from './MetaMorphoVaultDataDetails.styled';
+import { ErrorText } from './MetaMorphoVaultDataDetails.styled';
 
 type MetaMorphoVaultDataDisplayProps = {
   vaultAddress: string;
@@ -19,11 +19,11 @@ export const MetaMorphoVaultDataDetails = ({ vaultAddress }: MetaMorphoVaultData
   });
 
   if (error) return <ErrorText>{extractError(error)}</ErrorText>;
-  if (isFetching) return <Wrapper>Loading...</Wrapper>;
+  if (isFetching) return <p>Loading...</p>;
   if (!vaultData) return null;
 
   return (
-    <Wrapper>
+    <div>
       <h2>
         {vaultData.vaultName} ({vaultData.vaultSymbol})
       </h2>
@@ -33,6 +33,6 @@ export const MetaMorphoVaultDataDetails = ({ vaultAddress }: MetaMorphoVaultData
       <p>
         Your Assets: {vaultData.formattedAssets} {vaultData.assetSymbol}
       </p>
-    </Wrapper>
+    </div>
   );
 };

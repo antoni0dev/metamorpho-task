@@ -32,8 +32,8 @@ export const Card = styled.div`
 `;
 
 export const AddressInputWrapper = styled(Card)`
-  height: 200px;
   margin-bottom: 24px;
+  align-items: stretch;
 `;
 
 export const ErrorText = styled.p`

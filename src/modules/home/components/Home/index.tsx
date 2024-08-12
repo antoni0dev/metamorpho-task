@@ -95,16 +95,18 @@ export const Home = () => {
             onInvalidInput={handleInvalidInput}
             onValidVaultInput={(vaultAddress) => setVaultAddress(vaultAddress)}
           />
+          <MetaMorphoVaultDataDetails vaultAddress={vaultAddress} />
+          {vaultData && (
+            <>
+              <StyledPrimaryButton
+                onClick={handleWithdraw}
+                disabled={!isFundsToWithdraw || !primaryWallet}>
+                Withdraw
+              </StyledPrimaryButton>
+              {withdrawError && <ErrorText>{extractError(withdrawError)}</ErrorText>}
+            </>
+          )}
         </AddressInputWrapper>
-        <MetaMorphoVaultDataDetails vaultAddress={vaultAddress} />
-        <>
-          <StyledPrimaryButton
-            onClick={handleWithdraw}
-            disabled={!isFundsToWithdraw || !primaryWallet}>
-            Withdraw
-          </StyledPrimaryButton>
-          {withdrawError && <ErrorText>{extractError(withdrawError)}</ErrorText>}
-        </>
       </>
     );
   }
