@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC, PropsWithChildren } from 'react';
+import { ButtonHTMLAttributes,PropsWithChildren } from 'react';
 import { Button, ButtonWrapper } from './PrimaryButton.styled';
 
 export const PrimaryButton = ({

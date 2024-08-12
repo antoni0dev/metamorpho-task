@@ -24,6 +24,18 @@ export const StyledInput = styled.input`
 
 export const ErrorText = styled.p`
   font-size: 0.8rem;
+  text-align: right;
   color: ${COLORS.danger};
   margin-top: 4px;
+`;
+
+export const InputWrapper = styled.div`
+  position: relative;
+`;
+
+export const StatusIcon = styled.img`
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
 `;

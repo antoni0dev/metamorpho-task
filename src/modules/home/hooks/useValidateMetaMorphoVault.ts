@@ -9,9 +9,10 @@ export const useValidateMetaMorphoVault = (inputValue: string) => {
   const debouncedInputValue = useDebounce(inputValue, INPUT_DEBOUNCE_DELAY);
 
   useEffect(() => {
+    setIsValid(false);
+    setError('');
+
     if (!debouncedInputValue) {
-      setError('');
-      setIsValid(false);
       return;
     }
 

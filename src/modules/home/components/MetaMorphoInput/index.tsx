@@ -1,12 +1,19 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useValidateMetaMorphoVault } from '@/modules/home/hooks/useValidateMetaMorphoVault';
-import { StyledInput, StyledLabel, ErrorText } from './MetaMorphoInput.styled';
+import {
+  StyledInput,
+  StyledLabel,
+  ErrorText,
+  InputWrapper,
+  StatusIcon
+} from './MetaMorphoInput.styled';
 
 type MetaMorphoVaultInputProps = {
-  onValidVault: (address: string) => void;
+  onValidVaultInput: (address: string) => void;
+  onInvalidInput: () => void;
 };
 
-const MetaMorphoVaultInput = ({ onValidVault }: MetaMorphoVaultInputProps) => {
+const MetaMorphoVaultInput = ({ onValidVaultInput, onInvalidInput }: MetaMorphoVaultInputProps) => {
   const [inputValue, setInputValue] = useState('');
   const { error, isValid } = useValidateMetaMorphoVault(inputValue);
 
@@ -16,21 +23,36 @@ const MetaMorphoVaultInput = ({ onValidVault }: MetaMorphoVaultInputProps) => {
 
   useEffect(() => {
     if (isValid) {
-      onValidVault(inputValue);
+      onValidVaultInput(inputValue);
+    } else {
+      onInvalidInput();
     }
   }, [isValid]);
 
+  let icon;
+
+  if (isValid) {
+    icon = <StatusIcon src="/images/check.png" alt="green check icon" width={16} height={16} />;
+  } else if (error) {
+    icon = (
+      <StatusIcon src="/images/warning_icon.png" alt="red error icon" width={16} height={16} />
+    );
+  }
+
   return (
-    <>
+    <div>
       <StyledLabel>MetaMorpho Address</StyledLabel>
-      <StyledInput
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder="Enter MetaMorpho vault address"
-      />
+      <InputWrapper>
+        <StyledInput
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder="0xbeef017...12345"
+        />
+        {icon}
+      </InputWrapper>
       {error && <ErrorText>{error}</ErrorText>}
-    </>
+    </div>
   );
 };
 

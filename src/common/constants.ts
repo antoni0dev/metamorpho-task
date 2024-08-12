@@ -13,5 +13,6 @@ export const COLORS = {
   },
   primary: '#3bcff0',
   secondary: '#EFF2F7',
-  danger: '#FF4D4F'
+  danger: '#FF4D4F',
+  success: '#39A699'
 };
