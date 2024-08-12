@@ -57,38 +57,35 @@ export const Home = () => {
 
   if (isWithdrawing) {
     content = (
-      <PageContainer>
-        <Title>You transaction is pending...</Title>
+      <Card>
+        <Title>Your transaction is pending...</Title>
         <Description>
-          View on <a href="#">Etherscane...</a>
+          View on <a href="#">Etherscan...</a>
         </Description>
-      </PageContainer>
+        <StyledPrimaryButton disabled={true}>Withdraw</StyledPrimaryButton>
+      </Card>
     );
   } else if (isWithdrawSuccess) {
     content = (
-      <PageContainer>
-        <Card>
-          <img src="/images/check.png" alt="green check icon" width={48} height={48} />
-          <TightColumn>
-            <SuccessTitle>Success!</SuccessTitle>
-            <Description>View on Etherscan...</Description>
-          </TightColumn>
-          <PrimaryButton>Reset</PrimaryButton>
-        </Card>
-      </PageContainer>
+      <Card>
+        <img src="/images/check.png" alt="green check icon" width={48} height={48} />
+        <TightColumn>
+          <SuccessTitle>Success!</SuccessTitle>
+          <Description>View on Etherscan...</Description>
+        </TightColumn>
+        <PrimaryButton onClick={resetQuery}>Reset</PrimaryButton>
+      </Card>
     );
   } else if (withdrawError) {
     content = (
-      <PageContainer>
-        <Card>
-          <img src="/images/warning_icon.png" alt="red error icon" width={48} height={48} />
-          <TightColumn>
-            <ErrorTitle>Oh no!</ErrorTitle>
-            <Description>Please try again.</Description>
-          </TightColumn>
-          <PrimaryButton onClick={() => handleWithdraw}>Retry</PrimaryButton>
-        </Card>
-      </PageContainer>
+      <Card>
+        <img src="/images/warning_icon.png" alt="red error icon" width={48} height={48} />
+        <TightColumn>
+          <ErrorTitle>Oh no!</ErrorTitle>
+          <Description>Please try again.</Description>
+        </TightColumn>
+        <PrimaryButton onClick={handleWithdraw}>Retry</PrimaryButton>
+      </Card>
     );
   } else {
     content = (
@@ -100,6 +97,14 @@ export const Home = () => {
           />
         </AddressInputWrapper>
         <MetaMorphoVaultDataDetails vaultAddress={vaultAddress} />
+        <>
+          <StyledPrimaryButton
+            onClick={handleWithdraw}
+            disabled={!isFundsToWithdraw || !primaryWallet}>
+            Withdraw
+          </StyledPrimaryButton>
+          {withdrawError && <ErrorText>{extractError(withdrawError)}</ErrorText>}
+        </>
       </>
     );
   }
@@ -107,19 +112,7 @@ export const Home = () => {
   return (
     <PageContainer>
       <Header />
-      <ContentWrapper>
-        {content}
-        {vaultData && (
-          <>
-            <StyledPrimaryButton
-              onClick={handleWithdraw}
-              disabled={!isFundsToWithdraw || isWithdrawing || !primaryWallet}>
-              {isWithdrawing ? 'Transaction finalizing...' : 'Withdraw'}
-            </StyledPrimaryButton>
-            {withdrawError && <ErrorText>{extractError(withdrawError)}</ErrorText>}
-          </>
-        )}
-      </ContentWrapper>
+      <ContentWrapper>{content}</ContentWrapper>
     </PageContainer>
   );
 };
